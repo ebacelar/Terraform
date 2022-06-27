@@ -31,9 +31,11 @@ jobs:
         continue-on-error: true
       
       - name: Terraform Plan Status
-        if: steps.plan.outcome == failure
-        run: exit 1
+        if: ${{ steps.plan.outputs.exitcode == 1 }}
+        run: |
+          echo "Terraform plan returned ${{ steps.plan.outputs.exitcode }}"
+          exit ${{ steps.plan.outputs.exitcode }}
       
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply -auto-approve
