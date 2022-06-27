@@ -3,7 +3,7 @@ name: "Terraform-Plan-Infra"
 on:
   push:
     branches:
-      - master
+      - plan
 
 jobs:
   terraform:
